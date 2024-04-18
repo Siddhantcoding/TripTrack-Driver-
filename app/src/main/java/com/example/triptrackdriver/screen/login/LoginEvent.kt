@@ -1,4 +1,5 @@
 package com.example.triptrackdriver.screen.login
 
-class LoginEvent {
+sealed class LoginEvent {
+    data class Login(val email: String, val password: String) : LoginEvent()
 }
