@@ -1,3 +1,6 @@
+import org.gradle.internal.impldep.org.apache.http.conn.util.PublicSuffixMatcherLoader.load
+import org.jetbrains.kotlin.fir.resolve.calls.tower.TowerScopeLevel
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -49,8 +52,13 @@ android {
     }
 }
 
-dependencies {
 
+
+
+dependencies {
+    implementation(libs.permission.flow.compose)
+    implementation(libs.play.services.location)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -65,11 +73,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    // splash screen
+    implementation(libs.maps.compose)
+    implementation(libs.mapbox.android)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.support.annotations)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
