@@ -2,10 +2,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class RegisterViewModel : ViewModel() {
+    private val _state = MutableStateFlow(RegisterState())
+    val state : StateFlow<RegisterState> get() = _state
+    fun onEvent(event: RegisterEvent) {
+        if (event is RegisterEvent.Register) register(event.name, event.email, event.username, event.password, event.confirmPassword)
+    }
+
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 

@@ -15,11 +15,12 @@ fun Navigation() {
     NavHost(navController, startDestination = "registerScreen") {
         composable("registerScreen") { RegisterScreen(
             RegisterState(isLoading = true),
-            onEvent = null
+            onEvent = RegisterEvent.NavigateBack
         ) {
             navController.navigate(AuthScreen.Login.route)
         }
         }
         // Add other composable here
+        
     }
 }

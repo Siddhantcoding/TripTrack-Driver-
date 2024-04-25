@@ -10,13 +10,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LoginScreen(
-    state: LoginState,
     onEvent: (LoginEvent) -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
@@ -51,8 +48,7 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen(state = LoginState(), onEvent = {} ) {
-
-    }
+    LoginScreen(onEvent = {}) {}
 
 }
+

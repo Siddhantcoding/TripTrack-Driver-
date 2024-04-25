@@ -73,12 +73,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.maps.compose)
-    implementation(libs.mapbox.android)
+
+
+
+
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.support.annotations)
+    implementation(libs.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -86,4 +89,23 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    // lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
+    // coil
+    implementation("io.coil-kt:coil-compose:1.4.0")
+
+    // mapbox
+    implementation("com.mapbox.maps:android:11.3.0")
+    implementation("com.mapbox.extension:maps-compose:11.3.0")
+    // okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    // mapbox java turf
+    implementation("com.mapbox.mapboxsdk:mapbox-sdk-turf:6.15.0")
+    // mapbox services
+    implementation("com.mapbox.mapboxsdk:mapbox-sdk-geojson:6.15.0")
+    implementation("com.mapbox.mapboxsdk:mapbox-sdk-core:6.15.0")
+    implementation("com.mapbox.mapboxsdk:mapbox-sdk-services:6.15.0")
 }

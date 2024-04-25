@@ -6,13 +6,11 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
-import com.example.triptrackdriver.screen.navigation.AuthScreen
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun RegisterScreen(state: RegisterState, onEvent: Any?, function: () -> Unit) {
+fun RegisterScreen(state: StateFlow<RegisterState>, onEvent: RegisterEvent.NavigateBack, function: () -> Unit) {
     val viewModel: RegisterViewModel = viewModel()
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -44,9 +42,4 @@ fun RegisterScreen(state: RegisterState, onEvent: Any?, function: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun RegisterScreenPreview() {
-    RegisterScreen(RegisterState(isLoading = true), onEvent = null) {}
-        rememberNavController().navigate(AuthScreen.Login.route)
-    }
+
