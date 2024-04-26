@@ -8,9 +8,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.reflect.KFunction1
 
 @Composable
-fun RegisterScreen(state: StateFlow<RegisterState>, onEvent: RegisterEvent.NavigateBack, function: () -> Unit) {
+fun RegisterScreen(state: StateFlow<RegisterState>, onEvent: KFunction1<RegisterEvent, Unit>, function: () -> Unit) {
     val viewModel: RegisterViewModel = viewModel()
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
