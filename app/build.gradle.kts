@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.fir.resolve.calls.tower.TowerScopeLevel
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -82,6 +83,9 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.support.annotations)
     implementation(libs.core)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -4,6 +4,7 @@ package com.example.triptrackdriver.screen.navigation
 import RegisterScreen
 import RegisterViewModel
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +19,7 @@ fun Navigation() {
         composable("registerScreen") {
             val viewModel: RegisterViewModel = viewModel()
             RegisterScreen(
-                state = viewModel.state,
+                state = viewModel.state.collectAsState().value,
                 onEvent = viewModel::onEvent
             ) {
                 navController.navigate("loginScreen")

@@ -1,40 +1,49 @@
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.triptrackdriver.service.AuthService
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(
+    private val authService: AuthService = AuthService(),
+) : ViewModel() {
     private val _state = MutableStateFlow(RegisterState())
-    val state : StateFlow<RegisterState> get() = _state
+    val state = _state.asStateFlow()
     fun onEvent(event: RegisterEvent) {
-        if (event is RegisterEvent.Register) register(event.name, event.email, event.username, event.password, event.confirmPassword)
-    }
-
-    private val auth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
-
-    fun register(name: String, email: String, username: String, password: String, confirmPassword: String) {
-        if (password != confirmPassword) {
-            // Handle password mismatch
-            return
-        }
-
-        viewModelScope.launch {
-            try {
-                val result = auth.createUserWithEmailAndPassword(email, password).await()
-                val user = hashMapOf(
-                    "name" to name,
-                    "email" to email,
-                    "username" to username
-                )
-                db.collection("users").document(result.user?.uid!!).set(user).await()
-            } catch (e: Exception) {
-                // Handle registration error
+        when (event) {
+            RegisterEvent.OnSaveUser -> {
+                try {
+                    authService.register(_state)
+                } catch (e: Exception) {
+                    _state.update {
+                        it.copy(error = e.message ?: "Some error occurred")
+                    }
+                }
             }
+
+            is RegisterEvent.SetConfirmPassword -> {
+                _state.update { it.copy(confirmPassword = event.confirmPassword) }
+            }
+
+            is RegisterEvent.SetEmail -> {
+                _state.update { it.copy(email = event.email) }
+            }
+
+            is RegisterEvent.SetPassword -> {
+                _state.update { it.copy(password = event.password) }
+            }
+
+            is RegisterEvent.SetUsername -> {
+                _state.update { it.copy(username = event.username) }
+            }
+
+            RegisterEvent.ClearError -> {
+                _state.update { state ->
+                    state.copy(error = "")
+                }
+            }
+
+            else -> {}
         }
     }
 }

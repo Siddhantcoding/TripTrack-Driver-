@@ -1,34 +1,50 @@
 package com.example.triptrackdriver.screen.login
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.example.triptrackdriver.service.AuthService
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val authService: AuthService = AuthService()
+) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
-    val state: StateFlow<LoginState> get() = _state
+    val state = _state.asStateFlow()
 
     fun onEvent(event: LoginEvent) {
         when (event) {
-            is LoginEvent.Login -> login(event.email, event.password)
-        }
-    }
+            LoginEvent.OnLogin -> {
+                try{
 
-    private fun login(email: String, password: String) {
-        viewModelScope.launch {
-            _state.value = LoginState(isLoading = true)
-
-            // TODO: Implement the logic for checking if the entered email and password match the ones saved during registration.
-            // This is just a placeholder. Replace it with your actual logic.
-            val isLoginSuccessful = email == "test@example.com" && password == "password"
-
-            if (isLoginSuccessful) {
-                _state.value = LoginState(isLoggedIn = true)
-            } else {
-                _state.value = LoginState(error = "Invalid email or password")
+                    authService.login(_state)
+                }catch (e: Exception){
+                    _state.update { state ->
+                        state.copy(error = e.message ?: "An error occurred")
+                    }
+                }
             }
+
+            is LoginEvent.SetEmail -> {
+                _state.update { state ->
+                    state.copy(email = event.email)
+                }
+            }
+
+            is LoginEvent.SetPassword -> {
+                _state.update { state ->
+                    state.copy(password = event.password)
+                }
+            }
+
+            LoginEvent.ClearError -> {
+                _state.update { state ->
+                    state.copy(error = "")
+                }
+            }
+
+            is LoginEvent.OnLogin -> TODO()
+            is LoginEvent.Onlogin -> TODO()
         }
     }
 }
