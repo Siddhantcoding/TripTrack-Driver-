@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -26,8 +27,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.triptrackdriver.screen.register.RegisterEvent
+import com.mapbox.maps.extension.style.expressions.dsl.generated.color
 
 @Composable
 fun RegisterScreen(
@@ -46,10 +51,12 @@ fun RegisterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.secondaryContainer)
+                .background(Brush.linearGradient(colors = listOf(MaterialTheme.colorScheme.primary,MaterialTheme.colorScheme.background)))
         )
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.width(280.dp)
+                .background(Brush.linearGradient(colors = listOf(MaterialTheme.colorScheme.primary,MaterialTheme.colorScheme.background)))
         ) {
             IconButton(
                 onClick = { onBack() },
@@ -93,6 +100,18 @@ fun RegisterScreen(
                 placeholder = { Text("Email") },
                 leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = null) }
             )
+            //
+            OutlinedTextField(
+                value = state.phoneNumber.toString(),
+                onValueChange = {
+                    val newPhoneNumber = it.toLongOrNull()
+                    if (newPhoneNumber != null) {
+                        onEvent(RegisterEvent.SetPhoneNumber(newPhoneNumber))
+                    }
+                },
+                placeholder = { Text("Phone Number") },
+                leadingIcon = {Icon(imageVector = Icons.Default.Phone, contentDescription = null)}
+            )
             OutlinedTextField(
                 value = state.username,
                 onValueChange = { onEvent(RegisterEvent.SetUsername(it)) },
@@ -129,7 +148,7 @@ fun RegisterScreen(
             )
             Row {
                 Button(
-                    onClick = { onEvent(RegisterEvent.OnSaveUser) },
+                    onClick = { onEvent(RegisterEvent.OnSaveDriver) },
                     shape = MaterialTheme.shapes.extraSmall,
                     enabled = !state.isLoading
                 ) {

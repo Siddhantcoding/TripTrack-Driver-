@@ -1,4 +1,5 @@
 import androidx.lifecycle.ViewModel
+import com.example.triptrackdriver.screen.register.RegisterEvent
 import com.example.triptrackdriver.service.AuthService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +12,7 @@ class RegisterViewModel(
     val state = _state.asStateFlow()
     fun onEvent(event: RegisterEvent) {
         when (event) {
-            RegisterEvent.OnSaveUser -> {
+            RegisterEvent.OnSaveDriver -> {
                 try {
                     authService.register(_state)
                 } catch (e: Exception) {
@@ -35,6 +36,14 @@ class RegisterViewModel(
 
             is RegisterEvent.SetUsername -> {
                 _state.update { it.copy(username = event.username) }
+            }
+            is RegisterEvent.SetPhoneNumber -> {
+                val phoneNumber = event.phoneNumber.toString().toLongOrNull()
+                if (phoneNumber != null) {
+                    _state.update { it.copy(phoneNumber = phoneNumber) }
+                } else {
+                    _state.update { it.copy(error = "Invalid phone number") }
+                }
             }
 
             RegisterEvent.ClearError -> {
