@@ -11,7 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.triptrackdriver.screen.driverstatus.DriverStatusScreen
 import com.example.triptrackdriver.screen.login.LoginScreen
 import com.example.triptrackdriver.screen.login.LoginViewModel
-import com.google.android.play.integrity.internal.o
 
 
 enum class AuthScreen(val route: String) {
@@ -35,12 +34,12 @@ fun AuthNavigation() {
             val vm : RegisterViewModel = viewModel()
             RegisterScreen(state = vm.state.collectAsState().value, onEvent = vm::onEvent, onBack = {
                 navController.popBackStack()
-            })
+            }
+
+            )
 
 
-        }
-        composable(AuthScreen.ForgotPassword.route) {
-            // ForgotPasswordScreen goes here
+
         }
         composable(AuthScreen.DriverStatus.route) {
             DriverStatusScreen()

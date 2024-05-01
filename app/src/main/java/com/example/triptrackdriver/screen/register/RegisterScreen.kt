@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -51,13 +52,8 @@ fun RegisterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.secondaryContainer)
-                .background(Brush.linearGradient(colors = listOf(MaterialTheme.colorScheme.primary,MaterialTheme.colorScheme.background)))
-        )
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.width(280.dp)
-                .background(Brush.linearGradient(colors = listOf(MaterialTheme.colorScheme.primary,MaterialTheme.colorScheme.background)))
-        ) {
+
+        ){
             IconButton(
                 onClick = { onBack() },
                 modifier = Modifier.background(
@@ -67,11 +63,17 @@ fun RegisterScreen(
             ) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
             }
+        }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.width(280.dp)
+        ) {
+
             Text(text = "Create free account", style = MaterialTheme.typography.headlineMedium)
             AnimatedVisibility(visible = state.error.isNotBlank()) {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = MaterialTheme.shapes.extraSmall
+                    modifier = Modifier.fillMaxSize(),
+                    shape = MaterialTheme.shapes.extraLarge,
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
@@ -101,17 +103,6 @@ fun RegisterScreen(
                 leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = null) }
             )
             //
-            OutlinedTextField(
-                value = state.phoneNumber.toString(),
-                onValueChange = {
-                    val newPhoneNumber = it.toLongOrNull()
-                    if (newPhoneNumber != null) {
-                        onEvent(RegisterEvent.SetPhoneNumber(newPhoneNumber))
-                    }
-                },
-                placeholder = { Text("Phone Number") },
-                leadingIcon = {Icon(imageVector = Icons.Default.Phone, contentDescription = null)}
-            )
             OutlinedTextField(
                 value = state.username,
                 onValueChange = { onEvent(RegisterEvent.SetUsername(it)) },
