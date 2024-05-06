@@ -16,7 +16,6 @@ class LoginViewModel(
         when (event) {
             LoginEvent.OnLogin -> {
                 try{
-
                     authService.login(_state)
                 }catch (e: Exception){
                     _state.update { state ->
@@ -43,8 +42,7 @@ class LoginViewModel(
                 }
             }
 
-            is LoginEvent.OnLogin -> TODO()
-            is LoginEvent.Onlogin -> TODO()
+
         }
     }
 }

@@ -37,14 +37,6 @@ class RegisterViewModel(
             is RegisterEvent.SetUsername -> {
                 _state.update { it.copy(username = event.username) }
             }
-            is RegisterEvent.SetPhoneNumber -> {
-                val phoneNumber = event.phoneNumber.toString().toLongOrNull()
-                if (phoneNumber != null) {
-                    _state.update { it.copy(phoneNumber = phoneNumber) }
-                } else {
-                    _state.update { it.copy(error = "Invalid phone number") }
-                }
-            }
 
             RegisterEvent.ClearError -> {
                 _state.update { state ->

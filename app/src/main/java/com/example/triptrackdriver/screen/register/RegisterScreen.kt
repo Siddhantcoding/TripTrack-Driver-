@@ -40,9 +40,10 @@ fun RegisterScreen(
     state: RegisterState = RegisterState(),
     onEvent: (RegisterEvent) -> Unit = {},
     onBack: () -> Unit = {},
+    goHome: () -> Unit = {}
 ) {
     if (state.isRegisterSuccess) {
-        onBack()
+        goHome()
     }
     Box(
         modifier = Modifier.fillMaxSize(),

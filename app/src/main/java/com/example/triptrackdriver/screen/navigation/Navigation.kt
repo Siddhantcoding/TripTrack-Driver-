@@ -1,36 +1,25 @@
 // app/src/main/java/com/example/triptrackdriver/screen/navigation/Navigation.kt
 package com.example.triptrackdriver.screen.navigation
 
-import RegisterScreen
-import RegisterViewModel
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.triptrackdriver.screen.login.LoginScreen
+import com.example.triptrackdriver.screen.driverstatus.DriverStatusScreen
+import com.example.triptrackdriver.screen.location.LocationScreen
+
+
+enum class MainScreen(val route: String) {
+    Home("home"),
+}
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = "registerScreen") {
-        composable("registerScreen") {
-            val viewModel: RegisterViewModel = viewModel()
-            RegisterScreen(
-                state = viewModel.state.collectAsState().value,
-                onEvent = viewModel::onEvent
-            ) {
-                navController.navigate("loginScreen")
-            }
+    NavHost(navController, startDestination = MainScreen.Home.route) {
+        composable(MainScreen.Home.route) {
+            DriverStatusScreen()
         }
-        composable("loginScreen") {
-            LoginScreen(
-                onEvent = { /* Handle login events here */ },
-                onNavigateToRegister = { navController.navigate("registerScreen") }
-            )
-        }
-        // Add other composables here
     }
 }
