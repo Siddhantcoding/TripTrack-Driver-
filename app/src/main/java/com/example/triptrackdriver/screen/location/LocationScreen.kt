@@ -1,11 +1,13 @@
 package com.example.triptrackdriver.screen.location
 
-import com.example.triptrackdriver.utils.CityLocations
-
 
 import android.R
+import android.content.Context
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +37,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.triptrackdriver.MapScaffold
+import com.example.triptrackdriver.utils.CityLocations
 import com.example.triptrackdriver.utils.RequestLocationPermission
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.extension.compose.DefaultSettingsProvider
 import com.mapbox.maps.extension.compose.MapboxMap
@@ -43,6 +50,7 @@ import com.mapbox.maps.plugin.PuckBearing
 import com.mapbox.maps.plugin.locationcomponent.createDefault2DPuck
 import com.mapbox.maps.plugin.viewport.ViewportStatus
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @OptIn(MapboxExperimental::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -50,6 +58,7 @@ fun LocationScreen(
     modifier: Modifier = Modifier,
     onClickNavigate: () -> Unit = {},
 ) {
+
     val ZOOM: Double = 0.0
     val PITCH: Double = 0.0
     val context = LocalContext.current
@@ -109,6 +118,12 @@ fun LocationScreen(
                     Text("Zoom: ${mapViewportState.cameraState.zoom}")
                     Text("Pitch: ${mapViewportState.cameraState.pitch}")
                     Text("Bearing: ${mapViewportState.cameraState.bearing}")
+//                    SendLocationDetailToFirebase(
+//                        LocalContext.current,
+//                        mapViewportState.cameraState.center.latitude(),
+//                        mapViewportState.cameraState.center.longitude()
+//                    )
+
                 }
                 FloatingActionButton(onClick = { onClickNavigate() }) {
                     Image(
@@ -185,5 +200,44 @@ fun LocationScreen(
         }
     }
 }
+
+
+
+
+@Composable
+fun SendLocationDetailToFirebase(context: Context, latitude: Double, longitude: Double) {
+
+    val auth = Firebase.auth
+    val db = Firebase.firestore
+    var driverAddress by rememberSaveable {
+        mutableStateOf("")
+    }
+    
+    val geocoder = Geocoder(context, Locale.getDefault())
+    val address: Address?
+
+    val addresses: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+    if (addresses != null) {
+        if (addresses.isNotEmpty()) {
+            address = addresses[0]
+            driverAddress =
+                address.toString() // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
+            var city = address.locality;
+            var state = address.adminArea;
+            var country = address.countryName;
+            var postalCode = address.postalCode;
+            var knownName = address.featureName; // Only if available else return NULL
+            Toast.makeText(
+                context,
+                "City: $city, State: $state, Country: $country, Postal Code: $postalCode, Known Name: $knownName",
+                Toast.LENGTH_LONG
+            ).show()
+
+        } else {
+            driverAddress = "Location not found"
+        }
+    }
+}
+
 
 
