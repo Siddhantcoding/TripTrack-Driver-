@@ -5,5 +5,6 @@ sealed class LoginEvent {
     data object OnLogin : LoginEvent()
     data class SetEmail(val email: String) : LoginEvent()
     data class SetPassword(val password: String) : LoginEvent()
+    data class SetVehicleType(val vehicleType: String) : LoginEvent()
     data object ClearError : LoginEvent()
 }

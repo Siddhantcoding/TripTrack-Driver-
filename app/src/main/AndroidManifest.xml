@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name = ".screen.mapscreen.LocationTrackingActivity"
+            android:name = ".screen.mapscreen.MapActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

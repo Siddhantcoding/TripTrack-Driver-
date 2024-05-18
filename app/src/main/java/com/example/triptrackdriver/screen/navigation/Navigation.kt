@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.triptrackdriver.screen.driverstatus.DriverStatusScreen
+import com.example.triptrackdriver.screen.driver.DriverStatusScreen
 import com.example.triptrackdriver.screen.location.LocationScreen
 
 
@@ -21,6 +21,7 @@ fun Navigation() {
         composable(MainScreen.Home.route) {
             DriverStatusScreen {
                 navController.navigate(MainScreen.MapView.route)
+
             }
         }
         composable(MainScreen.MapView.route) {
@@ -28,3 +29,8 @@ fun Navigation() {
         }
     }
 }
+
+
+
+
+

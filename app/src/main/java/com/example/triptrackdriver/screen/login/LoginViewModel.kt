@@ -42,7 +42,11 @@ class LoginViewModel(
                 }
             }
 
-
+            is LoginEvent.SetVehicleType -> {
+                _state.update { state ->
+                    state.copy(VehicleType = event.vehicleType)
+                }
+            }
         }
     }
 }
