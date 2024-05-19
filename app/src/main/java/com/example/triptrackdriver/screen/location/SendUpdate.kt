@@ -42,16 +42,19 @@ fun SendLocationDetailToFirebase(context: Context, latitude: Double, longitude: 
                 cleanAddr += lines
             }
             user?.uid?.let {
-                db.collection("DRIVER").document(it).set(
-                    hashMapOf(
-                        "user" to user.uid,
-                        "latitude" to latitude,
-                        "longitude" to longitude,
-                        "address" to cleanAddr
-                    )
-                )
+                db.collection("DRIVER").document(it).update(
+                    "address", cleanAddr,
+                    "city", city,
+                    "state", state,
+                    "country", country,
+                    "postalCode", postalCode,
+                    "knownName", knownName
+                ).addOnSuccessListener {
+//                    Toast.makeText(context, "Location updated", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+//                    Toast.makeText(context, "Location not updated", Toast.LENGTH_SHORT).show()
+                }
             }
-
         } else {
             driverAddress = "Location not found"
         }
