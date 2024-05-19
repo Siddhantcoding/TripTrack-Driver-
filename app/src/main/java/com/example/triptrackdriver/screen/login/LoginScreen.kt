@@ -63,7 +63,6 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
-        TextField(value = state.VehicleType, onValueChange ={onEvent(LoginEvent.SetVehicleType(it))} )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { onEvent(LoginEvent.OnLogin)}) {
             Text("Login")

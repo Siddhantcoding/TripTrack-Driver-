@@ -20,9 +20,7 @@ fun SendLocationDetailToFirebase(context: Context, latitude: Double, longitude: 
 
     val auth = Firebase.auth
     val db = Firebase.firestore
-    var driverAddress by rememberSaveable {
-        mutableStateOf("")
-    }
+    var driverAddress by rememberSaveable { mutableStateOf("") }
 
     val geocoder = Geocoder(context, Locale.getDefault())
     val address: Address?
@@ -31,18 +29,13 @@ fun SendLocationDetailToFirebase(context: Context, latitude: Double, longitude: 
     if (addresses != null) {
         if (addresses.isNotEmpty()) {
             address = addresses[0]
-            driverAddress =
-                address.toString() // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
+            driverAddress = address.toString() // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex
             var city = address.locality;
             var state = address.adminArea;
             var country = address.countryName;
             var postalCode = address.postalCode;
             var knownName = address.featureName; // Only if available else return NULL
-            Toast.makeText(
-                context,
-                "City: $city, State: $state, Country: $country, Postal Code: $postalCode, Known Name: $knownName",
-                Toast.LENGTH_LONG
-            ).show()
+
             val user = auth.currentUser
             var cleanAddr = ""
             for(lines in address.getAddressLine(0)){
